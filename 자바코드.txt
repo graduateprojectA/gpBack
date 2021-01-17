@@ -1,515 +1,286 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 
-public class ex_1 {
-	public static ArrayList<String> table_name = new ArrayList<String>();
-	public static ArrayList<String> table_time = new ArrayList<String>();
-	public static ArrayList<String> table_professor = new ArrayList<String>();
-	public static ArrayList<String> out_time = new ArrayList<String>();
-	public static ArrayList<String> name_out = new ArrayList<String>();
-	public static ArrayList<String> div_out = new ArrayList<String>();
-	public static ArrayList<String> flag_out = new ArrayList<String>();
-	public static String[][][] real_table = new String[101][101][101];
-	public static String[][][] fake_table = new String[101][101][101];
-	public String[][] listen_name = new String[7][2];
-	public static HashMap<String, Integer> duplicate_count = new HashMap<String, Integer>();
-	public static int day1 = 100;
-	public static int day2 = 100;
-	public static int time1 = 100;
-	public static int time2 = 100;
-	public static int day3 = 100;
-	public static int time3 = 100;
-	public static int []day_out=new int [10];
-	public static int []time_out=new int [10];
-	public static String[][] name_table = new String[100][6];
-	
-	public static int blank_check(int index) {
-		int flag=0;
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 7; j++) {
-				if (real_table[i][j][index] != null) {
-					int n = Integer.parseInt(real_table[i][j][index]);
-					if(name_table[index][n]==null) {
-						flag=1;
-						break;
-				}
-				}
-			}
-		}
-		return flag;
-	}
-	public static int table_maker(String[] semi_table, int table2_number) {
-		int flag=0;
-		for (int i = 0; i < 6; i++) {
-			if (semi_table[i].length() == 2) {
-				day1 = (Integer.parseInt(semi_table[i].substring(0, 1)) - 1);
-				time1 = (Integer.parseInt(semi_table[i].substring(1, 2)) - 1);
-				for(int j=0;j<out_time.get(1).length();j++) {
-					if(j%2==0) {
-						if(day_out[j]==(day1+1)&&time_out[j+1]==(time1+1)) {
-							//System.out.println(day1+" "+time1);
-							flag=1;
-						}
-					}
-				}
-				real_table[day1][time1][table2_number] = Integer.toString(i);
-			} else if (semi_table[i].length() == 4) {
-				day1 = (Integer.parseInt(semi_table[i].substring(0, 1)) - 1);
-				time1 = (Integer.parseInt(semi_table[i].substring(1, 2)) - 1);
-				day2 = (Integer.parseInt(semi_table[i].substring(2, 3)) - 1);
-				time2 = (Integer.parseInt(semi_table[i].substring(3, 4)) - 1);
-				for(int j=0;j<out_time.get(1).length();j++) {
-					if(j%2==0) {
-						if(day_out[j]==(day1+1)&&time_out[j+1]==(time1+1)) {
-							//System.out.println(day1+" "+time1);
-							flag=1;
-						}if(day_out[j]==(day2+1)&&time_out[j+1]==(time2+1)) {
-							//System.out.println(day2+" "+time2);
-							flag=1;
-						}
-					}
-				}
-				real_table[day1][time1][table2_number] = Integer.toString(i);
-				real_table[day2][time2][table2_number] = Integer.toString(i);
-			} else if (semi_table[i].length() == 6) {
-				day1 = (Integer.parseInt(semi_table[i].substring(0, 1)) - 1);
-				time1 = (Integer.parseInt(semi_table[i].substring(1, 2)) - 1);
-				day2 = (Integer.parseInt(semi_table[i].substring(2, 3)) - 1);
-				time2 = (Integer.parseInt(semi_table[i].substring(3, 4)) - 1);
-				day3 = (Integer.parseInt(semi_table[i].substring(4, 5)) - 1);
-				time3 = (Integer.parseInt(semi_table[i].substring(5, 6)) - 1);
-				for(int j=0;j<out_time.get(1).length();j++) {
-					if(j%2==0) {
-						if(day_out[j]==(day1+1)&&time_out[j+1]==(time1+1)) {
-							//System.out.println(day1+" "+time1);
-							flag=1;
-						}if(day_out[j]==(day2+1)&&time_out[j+1]==(time2+1)) {
-							//System.out.println(day2+" "+time2);
-							flag=1;
-						}if(day_out[j]==(day3+1)&&time_out[j+1]==(time3+1)) {
-							//System.out.println(day3+" "+time3);
-							flag=1;
-						}
-					}
-				}
-				real_table[day1][time1][table2_number] = Integer.toString(i);
-				real_table[day2][time2][table2_number] = Integer.toString(i);
-				real_table[day3][time3][table2_number] = Integer.toString(i);
-			}
-		}return flag;
-	}
+public class ex_3 {
+	 public static ArrayList<String> table_name = new ArrayList<String>();
+	    public static ArrayList<String> table_time = new ArrayList<String>();
+	    public static ArrayList<String> table_professor = new ArrayList<String>();
+	    public static int []day_out=new int [10];
+	    public static ArrayList<Integer> out_time = new ArrayList<Integer>();
+	    public static ArrayList<String> name_out = new ArrayList<String>();
+	    public static ArrayList<Integer> div_out = new ArrayList<Integer>();
+	    public static ArrayList<Integer> flag_out = new ArrayList<Integer>();
+	    public static String[][][] real_table = new String[101][101][101];
+	    public static HashMap<String, Integer> duplicate_count = new HashMap<String, Integer>();
+	    public static int day1 = 100;
+	    public static int day2 = 100;
+	    public static int time1 = 100;
+	    public static int time2 = 100;
+	    public static int day3 = 100;
+	    public static int time3 = 100;
+	    public static String[][] name_table = new String[100][6];
+	    public static int[] bunban = new int[6];
+	    public static String[][] created_table = new String[100][6];
+	    public static int[][] bunban_table = new int[100][6];
+	    public static String[][] pname_table = new String[100][6];
+	    public static int []time_out=new int [10];
+	    public static int q = 0;
+	    public static String day = "";
+	    public static String course_name = "";
+	    public static String prof_name = "";
+
+	    //제외되는 분반이 있는 시간표를 제외시키기 위한 함수
+	    public static int blank_check(int index) {
+	        int flag=0;
+	        for (int i = 0; i < 5; i++) {
+	            for (int j = 0; j < 7; j++) {
+	                if (real_table[i][j][index] != null) {
+	                    int n = Integer.parseInt(real_table[i][j][index]);
+	                    if(name_table[index][n]==null) {
+	                        flag=1;
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	        return flag;
+	    }
+	    //제외 시간이 있는지 체크하여 flag 반환. real table에 내용 삽입.
+	    public static int table_maker(String[] semi_table, int table2_number) {
+	        int flag=0;
+	        String x = Integer.toString(out_time.get(1));
+	        for (int i = 0; i < 6; i++) {
+	            if (semi_table[i].length() == 2) {
+	                day1 = (Integer.parseInt(semi_table[i].substring(0, 1)) - 1);
+	                time1 = (Integer.parseInt(semi_table[i].substring(1, 2)) - 1);
+	                for(int j=0;j<x.length();j++) {
+	                    if(j%2==0) {
+	                        if(day_out[j]==(day1+1)&&time_out[j+1]==(time1+1)) {
+	                            //System.out.println(day1+" "+time1);
+	                            flag=1;
+	                        }
+	                    }
+	                }
+	                real_table[day1][time1][table2_number] = Integer.toString(i);
+	            } else if (semi_table[i].length() == 4) {
+	                day1 = (Integer.parseInt(semi_table[i].substring(0, 1)) - 1);
+	                time1 = (Integer.parseInt(semi_table[i].substring(1, 2)) - 1);
+	                day2 = (Integer.parseInt(semi_table[i].substring(2, 3)) - 1);
+	                time2 = (Integer.parseInt(semi_table[i].substring(3, 4)) - 1);
+	                for(int j=0;j<x.length();j++) {
+	                    if(j%2==0) {
+	                        if(day_out[j]==(day1+1)&&time_out[j+1]==(time1+1)) {
+	                            //System.out.println(day1+" "+time1);
+	                            flag=1;
+	                        }if(day_out[j]==(day2+1)&&time_out[j+1]==(time2+1)) {
+	                            //System.out.println(day2+" "+time2);
+	                            flag=1;
+	                        }
+	                    }
+	                }
+	                real_table[day1][time1][table2_number] = Integer.toString(i);
+	                real_table[day2][time2][table2_number] = Integer.toString(i);
+	            } else if (semi_table[i].length() == 6) {
+	                day1 = (Integer.parseInt(semi_table[i].substring(0, 1)) - 1);
+	                time1 = (Integer.parseInt(semi_table[i].substring(1, 2)) - 1);
+	                day2 = (Integer.parseInt(semi_table[i].substring(2, 3)) - 1);
+	                time2 = (Integer.parseInt(semi_table[i].substring(3, 4)) - 1);
+	                day3 = (Integer.parseInt(semi_table[i].substring(4, 5)) - 1);
+	                time3 = (Integer.parseInt(semi_table[i].substring(5, 6)) - 1);
+	                for(int j=0;j<x.length();j++) {
+	                    if(j%2==0) {
+	                        if(day_out[j]==(day1+1)&&time_out[j+1]==(time1+1)) {
+	                            //System.out.println(day1+" "+time1);
+	                            flag=1;
+	                        }if(day_out[j]==(day2+1)&&time_out[j+1]==(time2+1)) {
+	                            //System.out.println(day2+" "+time2);
+	                            flag=1;
+	                        }if(day_out[j]==(day3+1)&&time_out[j+1]==(time3+1)) {
+	                            //System.out.println(day3+" "+time3);
+	                            flag=1;
+	                        }
+	                    }
+	                }
+	                real_table[day1][time1][table2_number] = Integer.toString(i);
+	                real_table[day2][time2][table2_number] = Integer.toString(i);
+	                real_table[day3][time3][table2_number] = Integer.toString(i);
+	            }
+	        }return flag;
+	    }
+	    
+	    //제외 분반과 시간을 체크하는 함수들을 통과하면 시간표를 적정한 형식으로 db에 넣는 함수. 여기서는 그냥 출력하는 걸로 변경해둠.
+	    public static void table_insert(int m) {
+	        int y=table_maker(created_table[m], m);
+	        int x=blank_check(m);
+	        if(y==0&&x==0){
+	            for (int i = 0; i < 5; i++) {
+	                for (int j = 0; j < 7; j++) {
+	                    if (real_table[i][j][m] != null) {
+	                        if (i == 0) {
+	                            day = "월";
+	                        } else if (i == 1) {
+	                            day = "화";
+	                        } else if (i == 2) {
+	                            day = "수";
+	                        } else if (i == 3) {
+	                            day = "목";
+	                        } else if (i == 4) {
+	                            day = "금";
+	                        }
+	                        int bun = 0;
+	                        int n = Integer.parseInt(real_table[i][j][m]);
+	                        course_name = name_table[m][n];
+	                        bun = bunban_table[m][n];
+	                        prof_name = pname_table[m][n];
+	                        System.out.println((m+1) + " " + day + " " + (j + 1) + " " + course_name + " " + bun + " " + prof_name);
+	                    }
+	                }
+	            }
+	        }
+	    }
+	   
 
 	public static void main(String[] args) {
-		Connection conn = null;
-		Statement state = null;
-		Statement state3 = null;
-		ResultSet resset = null;
-		ResultSet resset2 = null;
-		ResultSet resset3 = null;
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt3 = null;
-		PreparedStatement pstmt4 = null;
-		String url = "jdbc:mysql://localhost:3306/graduate?&serverTimezone=UTC";
-		String sql = "";
-		String sql2 = "";
-		String sql3 = "";
-		String sql4 = "";
-		int f=0;
-		try {
-			conn = DriverManager.getConnection(url, "root", "wlsgml214");
-			state = conn.createStatement();
-			state3 = conn.createStatement();
-			sql = "select * from majors where recommend_time=32";
-			sql2 = "insert into graduate.time_table (table_number,week,period,course_name,division_number,professor_name) values(?,?,?,?,?,?)";
-			sql3 = "select * from user";
-			sql4 = "select * from user1_dropmajor";
-			pstmt = conn.prepareStatement(sql);
-			pstmt2 = conn.prepareStatement(sql2);
-			pstmt3 = conn.prepareStatement(sql3);
-			pstmt4 = conn.prepareStatement(sql4);
-			String major_name = "";
-			String this_time = "";
-			String professor_name = "";
-			resset = state.executeQuery(sql);
-			while (resset.next()) {
-				major_name = resset.getString("major_name");
-				table_name.add(major_name);
-				this_time = resset.getString("this_time");
-				table_time.add(this_time);
-				professor_name = resset.getString("professor_name");
-				table_professor.add(professor_name);
-			}resset.close();// close resultset
-			resset = state.executeQuery(sql3);
-			String Timeout = "";
-			while (resset.next()) {
-				Timeout = resset.getString("time_out");
-				out_time.add(Timeout);
-			}resset.close();// close resultset
-			resset = state.executeQuery(sql4);
-			String out_name = "";
-			String out_div = "";
-			String out_flag = "";
-			while (resset.next()) {
-				out_name = resset.getString("major_name");
-				name_out.add(out_name);
-				out_div = resset.getString("division_number");
-				div_out.add(out_div);
-				out_flag = resset.getString("flag");
-				flag_out.add(out_flag);
-			}
-			System.out.println(name_out);
-			System.out.println(div_out);
-			System.out.println(flag_out);
-			for(int i=0;i<out_time.get(1).length();i++) {
-				if(i%2==1) {
-					time_out[i]=Integer.parseInt(out_time.get(1).substring(i, i+1));
-				}else {
-					day_out[i]=Integer.parseInt(out_time.get(1).substring(i, i+1));
-				}
-			}
-			int []out_list=new int[10];
-			int j=0;
-			for(int i=0;i<flag_out.size();i++) {
-				if(flag_out.get(i).equals("0")) {
-					table_name.set(i,null);
-				}
-			}System.out.println(table_name);
-			/*
-			for(int i=0;i<out_time.get(1).length();i++) {
-				if(i%2==1) {
-					System.out.print("time"+time_out[i]);
-				}else {
-					System.out.print("day"+day_out[i]);
-				}
-			}
-			*/
-			for (int m = 0; m < table_name.size(); m++) { // ArrayList 만큼 반복
-				if(table_name.get(m)!=null) {
-					if (duplicate_count.containsKey(table_name.get(m))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
-						duplicate_count.put(table_name.get(m), duplicate_count.get(table_name.get(m)) + 1); // key가 이미 있다면
-																											// value에 +1
-					} else { // key값이 존재하지 않으면
-						duplicate_count.put(table_name.get(m), 1); // key 값을 생성후 value를 1로 초기화
-					}
-				}
-			}
-			int[] bunban = new int[6];
-			String[][] created_table = new String[100][6];
-			int[][] bunban_table = new int[100][6];
-			String[][] pname_table = new String[100][6];
-			int q = 0;
-			for (Entry<String, Integer> entry : duplicate_count.entrySet()) {
-				bunban[q] = entry.getValue();
-				q++;
-			}
-			q = 0;
-			
-			for (int i = 0; i < 2; i++) {
-				for (j = 0; j < 1; j++) {
-					for (int k = 0; k <3; k++) {
-						for (int l = 0; l < 1; l++) {
-							for (int m = 0; m < 1; m++) {
-								for (int n = 0; n < 1; n++) {
-									created_table[q][0] = table_time.get(7 + i);
-									name_table[q][0] = table_name.get(7 + i);
-									bunban_table[q][0] = (1 + i);
-									pname_table[q][0] = table_professor.get(7 + i);
-									created_table[q][1] = table_time.get(5 + j);
-									name_table[q][1] = table_name.get(5 + j);
-									bunban_table[q][1] = (1 + j);
-									pname_table[q][1] = table_professor.get(5 + j);
-									created_table[q][2] = table_time.get(1 + k);
-									name_table[q][2] = table_name.get(1 + k);
-									bunban_table[q][2] = (1 + k);
-									pname_table[q][2] = table_professor.get(1 + k);
-									created_table[q][3] = table_time.get(l);
-									name_table[q][3] = table_name.get(l);
-									bunban_table[q][3] = (1 + l);
-									pname_table[q][3] = table_professor.get(l);
-									created_table[q][4] = table_time.get(4 + m);
-									name_table[q][4] = table_name.get(4 + m);
-									bunban_table[q][4] = (1 + m);
-									pname_table[q][4] = table_professor.get(4 + m);
-									created_table[q][5] = table_time.get(6 + n);
-									name_table[q][5] = table_name.get(6 + n);
-									bunban_table[q][5] = (1 + n);
-									pname_table[q][5] = table_professor.get(6 + n);
-									q++;
-								}
-							}
-						}
-					}
-				}
-			} /*
-				 * for(int i=0; i<6; i++) { for (int j=0;j<6;j++) {
-				 * System.out.print(created_table[i][j]+"|"); }System.out.println(); }
-				 * System.out.println(); for(int i=0; i<6; i++) { for (int j=0;j<6;j++) {
-				 * System.out.print(name_table[i][j]+"|"); }System.out.println(); }
-				 * System.out.println(); for(int i=0; i<6; i++) { for (int j=0;j<6;j++) {
-				 * System.out.print(bunban_table[i][j]+"|"); }System.out.println(); }
-				 * System.out.println(); for(int i=0; i<6; i++) { for (int j=0;j<6;j++) {
-				 * System.out.print(pname_table[i][j]+"|"); }System.out.println(); }
-				 * System.out.println();
-				 */
-			String day = "";
-			String course_name = "";
-			String prof_name = "";
-			f=table_maker(created_table[0], 0);
-			int flag2=blank_check(0);
-			/*
-			System.out.println(f);
-			System.out.println(flag2);*/
-			if (f==0 && flag2==0) {
-				for (int i = 0; i < 5; i++) {
-					for (j = 0; j < 7; j++) {
-						if (real_table[i][j][0] != null) {
-							if (i == 0) {
-								day = "월";
-							} else if (i == 1) {
-								day = "화";
-							} else if (i == 2) {
-								day = "수";
-							} else if (i == 3) {
-								day = "목";
-							} else if (i == 4) {
-								day = "금";
-							}
-							int bun = 0;
-							int n = Integer.parseInt(real_table[i][j][0]);
-							course_name = name_table[0][n];
-							bun = bunban_table[0][n];
-							prof_name = pname_table[0][n];
-							pstmt2.setInt(1, 1);
-							pstmt2.setString(2, day);
-							pstmt2.setInt(3, j + 1);
-							pstmt2.setString(4, course_name);
-							pstmt2.setInt(5, bun);
-							pstmt2.setString(6, prof_name);
-							int r = pstmt2.executeUpdate();
-						}
-					}
-				}
-			}
-			f=table_maker(created_table[1], 1);
-			flag2=blank_check(1);
-			/*
-			System.out.println(f);
-			System.out.println(flag2);*/
-			if (f==0 && flag2==0) {
-			for (int i = 0; i < 5; i++) {
-				for (j = 0; j < 7; j++) {
-					if (real_table[i][j][1] != null) {
-						if (i == 0) {
-							day = "월";
-						} else if (i == 1) {
-							day = "화";
-						} else if (i == 2) {
-							day = "수";
-						} else if (i == 3) {
-							day = "목";
-						} else if (i == 4) {
-							day = "금";
-						}
-						int n = Integer.parseInt(real_table[i][j][1]);
-						int bun = 0;
-						course_name = name_table[1][n];
-						bun = bunban_table[1][n];
-						prof_name = pname_table[1][n];
-						pstmt2.setInt(1, 2);
-						pstmt2.setString(2, day);
-						pstmt2.setInt(3, j + 1);
-						pstmt2.setString(4, course_name);
-						pstmt2.setInt(5, bun);
-						pstmt2.setString(6, prof_name);
-						int r = pstmt2.executeUpdate();
-					}
-				}
-			}
-			}
-			
-			f=table_maker(created_table[2], 2);
-			flag2=blank_check(2);
-			/*
-			System.out.println(f);
-			System.out.println(flag2);*/
-			if (f==0 && flag2==0) {
-			for (int i = 0; i < 5; i++) {
-				for (j = 0; j < 7; j++) {
-					if (real_table[i][j][2] != null) {
-						if (i == 0) {
-							day = "월";
-						} else if (i == 1) {
-							day = "화";
-						} else if (i == 2) {
-							day = "수";
-						} else if (i == 3) {
-							day = "목";
-						} else if (i == 4) {
-							day = "금";
-						}
-						int n = Integer.parseInt(real_table[i][j][2]);
-						int bun = 0;
-						course_name = name_table[2][n];
-						bun = bunban_table[2][n];
-						prof_name = pname_table[2][n];
-						pstmt2.setInt(1, 3);
-						pstmt2.setString(2, day);
-						pstmt2.setInt(3, j + 1);
-						pstmt2.setString(4, course_name);
-						pstmt2.setInt(5, bun);
-						pstmt2.setString(6, prof_name);
-						int r = pstmt2.executeUpdate();
-					}
-				}
-			}
-			}
-			f=table_maker(created_table[3],3);
-			flag2=blank_check(3);
-			/*
-			System.out.println(f);
-			System.out.println(flag2);*/
-			if (f==0 && flag2==0) {
-			for (int i = 0; i < 5; i++) {
-				for (j = 0; j < 7; j++) {
-					if (real_table[i][j][3] != null) {
-						if (i == 0) {
-							day = "월";
-						} else if (i == 1) {
-							day = "화";
-						} else if (i == 2) {
-							day = "수";
-						} else if (i == 3) {
-							day = "목";
-						} else if (i == 4) {
-							day = "금";
-						}
-						int n = Integer.parseInt(real_table[i][j][3]);
-						int bun = 0;
-						course_name = name_table[3][n];
-						bun = bunban_table[3][n];
-						prof_name = pname_table[3][n];
-						pstmt2.setInt(1, 4);
-						pstmt2.setString(2, day);
-						pstmt2.setInt(3, j + 1);
-						pstmt2.setString(4, course_name);
-						pstmt2.setInt(5, bun);
-						pstmt2.setString(6, prof_name);
-						int r = pstmt2.executeUpdate();
-					}
-				}
-			}
-			}
-			f=table_maker(created_table[4], 4);
-			flag2=blank_check(4);
-			/*
-			System.out.println(f);
-			System.out.println(flag2);*/
-			if (f==0 && flag2==0) {
-			for (int i = 0; i < 5; i++) {
-				for (j = 0; j < 7; j++) {
-					if (real_table[i][j][4] != null) {
-						if (i == 0) {
-							day = "월";
-						} else if (i == 1) {
-							day = "화";
-						} else if (i == 2) {
-							day = "수";
-						} else if (i == 3) {
-							day = "목";
-						} else if (i == 4) {
-							day = "금";
-						}
-						int n = Integer.parseInt(real_table[i][j][4]);
-						int bun = 0;
-						course_name = name_table[4][n];
-						bun = bunban_table[4][n];
-						prof_name = pname_table[4][n];
-						pstmt2.setInt(1, 5);
-						pstmt2.setString(2, day);
-						pstmt2.setInt(3, j + 1);
-						pstmt2.setString(4, course_name);
-						pstmt2.setInt(5, bun);
-						pstmt2.setString(6, prof_name);
-						int r = pstmt2.executeUpdate();
-					}
-				}
-			}
-			}
-
-			flag2=blank_check(5);
-			/*
-			System.out.println(f);
-			System.out.println(flag2);*/
-			if (f==0 && flag2==0) {
-					for (int i = 0; i < 5; i++) {
-						for (j = 0; j < 7; j++) {
-							if (real_table[i][j][5] != null) {
-								if (i == 0) {
-									day = "월";
-								} else if (i == 1) {
-									day = "화";
-								} else if (i == 2) {
-									day = "수";
-								} else if (i == 3) {
-									day = "목";
-								} else if (i == 4) {
-									day = "금";
-								}
-								int n = Integer.parseInt(real_table[i][j][5]);
-								int bun = 0;
-								course_name = name_table[5][n];
-								bun = bunban_table[5][n];
-								prof_name = pname_table[5][n];
-								pstmt2.setInt(1, 6);
-								pstmt2.setString(2, day);
-								pstmt2.setInt(3, j + 1);
-								pstmt2.setString(4, course_name);
-								pstmt2.setInt(5, bun);
-								pstmt2.setString(6, prof_name);
-								int r = pstmt2.executeUpdate();
-							}
-						}
-					}
-					}
-			
-		} catch (SQLException e) {// if connection is failed
-			System.out.println("에러: " + e);// print why fail
-		} finally {// when ended
-			if (resset != null) {
-				try {
-					
-					pstmt2.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (state != null) {
-				try {
-					state.close();// close statement
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (conn != null) {
-				try {
-					conn.close();// close connection
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		//db연동 대신 직접 입력함
+		table_name.add("SW리더십세미나II");
+		table_name.add("소프트웨어공학");
+		table_name.add("소프트웨어공학");
+		table_name.add("소프트웨어공학");
+		table_name.add("컴퓨터그래픽스");
+		table_name.add("컴퓨터네트워크");
+		table_name.add("컴퓨터네트워크");
+		table_name.add("캡스톤디자인프로젝트A");
+		table_name.add("임베디드시스템및실험");
+		table_time.add("27");
+		table_time.add("3654");
+		table_time.add("3757");
+		table_time.add("3654");
+		table_time.add("2253");
+		table_time.add("1635");
+		table_time.add("2342");
+		table_time.add("245556");
+		table_time.add("1213");
+		table_professor.add("김현수");
+		table_professor.add("최병주");
+		table_professor.add("박지현");
+		table_professor.add("박지현");
+		table_professor.add("김영준");
+		table_professor.add("이미정");
+		table_professor.add("이숙영");
+		table_professor.add("김현수");
+		table_professor.add("박상수");
+		out_time.add(334425);
+		out_time.add(111111);
+		out_time.add(374425);
+		name_out.add("SW리더십세미나II");
+		name_out.add("소프트웨어공학");
+		name_out.add("소프트웨어공학");
+		name_out.add("소프트웨어공학");
+		name_out.add("임베디드시스템및실험");
+		name_out.add("캡스톤디자인프로젝트A");
+		name_out.add("컴퓨터그래픽스");
+		name_out.add("컴퓨터네트워크");
+		name_out.add("컴퓨터네트워크");
+		div_out.add(1);
+		div_out.add(1);
+		div_out.add(2);
+		div_out.add(3);
+		div_out.add(1);
+		div_out.add(1);
+		div_out.add(1);
+		div_out.add(1);
+		div_out.add(2);
+		flag_out.add(1);
+		flag_out.add(1);
+		flag_out.add(0);
+		flag_out.add(0);
+		flag_out.add(1);
+		flag_out.add(1);
+		flag_out.add(1);
+		flag_out.add(1);
+		flag_out.add(0);
+		
+		//제외할 시간이나 요일이 숫자4자리등으로 이루어져 있기 때문에 각각 나눠 넣어줌
+        String x = Integer.toString(out_time.get(2));
+        for(int i=0;i<x.length();i++) {
+            if(i%2==1) {
+                time_out[i]=Integer.parseInt(x.substring(i, i+1));
+            }else {
+                day_out[i]=Integer.parseInt(x.substring(i, i+1));
+            }
+        }
+        int []out_list=new int[10];
+        int j=0;
+        //제외된 분반은 이름을 null로 변경
+        for(int i=0;i<flag_out.size();i++) {
+            if(flag_out.get(i)==0) {
+                table_name.set(i,null);
+            }
+        }
+        //각 과목에 분반이 몇개 있나 체크
+        for (int m = 0; m < table_name.size(); m++) { // ArrayList 만큼 반복
+            if (table_name.get(m) != null) {
+                if (duplicate_count.containsKey(table_name.get(m))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
+                    duplicate_count.put(table_name.get(m), duplicate_count.get(table_name.get(m)) + 1); // key가 이미 있다면
+                    // value에 +1
+                } else { // key값이 존재하지 않으면
+                    duplicate_count.put(table_name.get(m), 1); // key 값을 생성후 value를 1로 초기화
+                }
+            }
+        }
+        for (Map.Entry<String, Integer> entry : duplicate_count.entrySet()) {
+            bunban[q] = entry.getValue();
+            q++;
+        }
+        q = 0;
+        //db에서 불러오느라 순서가 제각각인 시간, 과목명, 분반명, 교수명 등을 같은 순서로 정렬. 이부분 임의로 집어넣어둔거라 이름으로 서치한다거나 함수 불러오는 방식으로 수정해 줬으면 함 
+        for (int i = 0; i < 2; i++) {
+            for (j = 0; j < 1; j++) {
+                for (int k = 0; k < 3; k++) {
+                    for (int l = 0; l < 1; l++) {
+                        for (int m = 0; m < 1; m++) {
+                            for (int n = 0; n < 1; n++) {
+                                created_table[q][0] = table_time.get(7 + i);
+                                name_table[q][0] = table_name.get(7 + i);
+                                bunban_table[q][0] = (1 + i);
+                                pname_table[q][0] = table_professor.get(7 + i);
+                                created_table[q][1] = table_time.get(5 + j);
+                                name_table[q][1] = table_name.get(5 + j);
+                                bunban_table[q][1] = (1 + j);
+                                pname_table[q][1] = table_professor.get(5 + j);
+                                created_table[q][2] = table_time.get(1 + k);
+                                name_table[q][2] = table_name.get(1 + k);
+                                bunban_table[q][2] = (1 + k);
+                                pname_table[q][2] = table_professor.get(1 + k);
+                                created_table[q][3] = table_time.get(l);
+                                name_table[q][3] = table_name.get(l);
+                                bunban_table[q][3] = (1 + l);
+                                pname_table[q][3] = table_professor.get(l);
+                                created_table[q][4] = table_time.get(4 + m);
+                                name_table[q][4] = table_name.get(4 + m);
+                                bunban_table[q][4] = (1 + m);
+                                pname_table[q][4] = table_professor.get(4 + m);
+                                created_table[q][5] = table_time.get(6 + n);
+                                name_table[q][5] = table_name.get(6 + n);
+                                bunban_table[q][5] = (1 + n);
+                                pname_table[q][5] = table_professor.get(6 + n);
+                                q++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //시간표 생성하여 db에 넣는 코드 불러옴. 아무 제약 없을때 시간표가 6개 나와서 6번 불러왔는데 모든 경우에 적용되게 변경 요함.
+        table_insert(0);
+        table_insert(1);
+        table_insert(2);
+        table_insert(3);
+        table_insert(4);
+        table_insert(5);
 	}
+
 }
