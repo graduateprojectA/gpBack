@@ -5,29 +5,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ex_3 {
+	//데베의 majors 테이블에 내용을 담을 자료형들
+	//major_name(교과목명)
 	 public static ArrayList<String> table_name = new ArrayList<String>();
+	 //this_time(시간표 ex:월2목4 등)
 	    public static ArrayList<String> table_time = new ArrayList<String>();
+	    //professor_name(교수명)
 	    public static ArrayList<String> table_professor = new ArrayList<String>();
-	    public static int []day_out=new int [10];
+	    
+	  //데베의 user 테이블에 내용을 담을 자료형들
+	    //time_out(알바 등으로 제외하는 시간대)
 	    public static ArrayList<Integer> out_time = new ArrayList<Integer>();
+	    
+	  //데베의 user1_droptable 테이블에 내용을 담을 자료형들
+	    //major_name(교과목명)
 	    public static ArrayList<String> name_out = new ArrayList<String>();
+	    //division_number(분반명)
 	    public static ArrayList<Integer> div_out = new ArrayList<Integer>();
+	    //flag_out(제외할지 말지의 flag. 0이면 제외)
 	    public static ArrayList<Integer> flag_out = new ArrayList<Integer>();
-	    public static String[][][] real_table = new String[101][101][101];
+	    
+	    //user1_droptable에서 불러온 숫자형태(334425)를 수3목4화5로 변형하기 위한 자료형들
+	    //교시를 넣을 list. time_out={3,4,5}
+	    public static int []time_out=new int [10];
+	    //요일을 넣을 list. day_out={3,4,2}
+	    public static int []day_out=new int [10];
+	    
+	   //각 과목에 분반이 몇개 있나 담는 자료형
 	    public static HashMap<String, Integer> duplicate_count = new HashMap<String, Integer>();
+	    //생성된 시간표들의 index
+	    public static int q = 0;
+	    //과목별로 분반이 몇개있는지 담음
+	    public static int[] bunban = new int[6];
+	    public static String[][] name_table = new String[100][6];
+	    public static String[][] created_table = new String[100][6];
+	    public static int[][] bunban_table = new int[100][6];
+	    public static String[][] pname_table = new String[100][6];
+	    //요일, 교시에 과목을 넣기 위한 3차원 배열
+	    public static String[][][] real_table = new String[101][101][101];
+	    //시간표가 1234면 월2수4로 변형해야하기 때문에 이 때 필요한 변수, 졸프같이 3교시인 과목도 있어서 각각 3개씩 만듬
 	    public static int day1 = 100;
 	    public static int day2 = 100;
 	    public static int time1 = 100;
 	    public static int time2 = 100;
 	    public static int day3 = 100;
 	    public static int time3 = 100;
-	    public static String[][] name_table = new String[100][6];
-	    public static int[] bunban = new int[6];
-	    public static String[][] created_table = new String[100][6];
-	    public static int[][] bunban_table = new int[100][6];
-	    public static String[][] pname_table = new String[100][6];
-	    public static int []time_out=new int [10];
-	    public static int q = 0;
+	    //실제 데베에 넣기 위한 변수
 	    public static String day = "";
 	    public static String course_name = "";
 	    public static String prof_name = "";
@@ -212,7 +235,6 @@ public class ex_3 {
                 day_out[i]=Integer.parseInt(x.substring(i, i+1));
             }
         }
-        int []out_list=new int[10];
         int j=0;
         //제외된 분반은 이름을 null로 변경
         for(int i=0;i<flag_out.size();i++) {
@@ -236,7 +258,21 @@ public class ex_3 {
             q++;
         }
         q = 0;
-        //db에서 불러오느라 순서가 제각각인 시간, 과목명, 분반명, 교수명 등을 같은 순서로 정렬. 이부분 임의로 집어넣어둔거라 이름으로 서치한다거나 함수 불러오는 방식으로 수정해 줬으면 함 
+        for(int i=0;i<9;i++) {
+        	System.out.println(table_name.get(i));
+        }
+        /*db에서 불러오느라 순서가 제각각인 시간, 과목명, 분반명, 교수명 등을 같은 순서로 정렬. 
+         * created_table, name_table, bunban_table, pname_table의
+         *  [][0]은 세미나, [][1]은 소공, [][2]는 컴그, [][3]은 컴네, [][4]는 졸프, [][5]는 임베디드
+         *  [q][]는 6개가 나오는데 소공이 3개, 네트워크가 2개의 분반을 가지고 나머지는 분반이 한개이기 때문에 모든 분반의 경우의 수를 따지면 6가지이기 때문
+         *  [0][]의 테이블에는 소공1분반, 컴네1분반
+         *  [1][]의 테이블에는 소공 2분반, 컴네 1분반
+         *  [2][]는 소공 3분반, 컴네1분반
+         *  [3][]의 테이블에는 소공1분반, 컴네2분반
+         *  [4][]의 테이블에는 소공 2분반, 컴네 2분반
+         *  [5][]는 소공 3분반, 컴네2분반
+         * 이부분 임의로 집어넣어둔거라 이름으로 서치한다거나 함수 불러오는 방식으로 수정해 줬으면 함 
+         */
         for (int i = 0; i < 2; i++) {
             for (j = 0; j < 1; j++) {
                 for (int k = 0; k < 3; k++) {
@@ -274,6 +310,7 @@ public class ex_3 {
                 }
             }
         }
+        
         //시간표 생성하여 db에 넣는 코드 불러옴. 아무 제약 없을때 시간표가 6개 나와서 6번 불러왔는데 모든 경우에 적용되게 변경 요함.
         table_insert(0);
         table_insert(1);
